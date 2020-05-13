@@ -20,10 +20,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.mealprep.CaloriesPerDay;
 import com.example.mealprep.R;
 import com.example.mealprep.User;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements CaloriesPerDay {
 
     private HomeViewModel homeViewModel;
     private RadioGroup sex;
@@ -50,7 +51,7 @@ public class HomeFragment extends Fragment {
         submit=(Button)root.findViewById(R.id.buttonSubmit);
         submit.setOnClickListener(new OnClickListener() {
             @Override
-             {
+            public void onClick(View v) {
                 int selectedId = sex.getCheckedRadioButtonId();
                 buttonSex = (RadioButton) root.findViewById(selectedId);
                 gender=buttonSex.getText().toString();
@@ -68,5 +69,10 @@ public class HomeFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    @Override
+    public void setCaloriesPerDay(double caloriesPerDay) {
+        this.caloriesPerDay=caloriesPerDay;
     }
 }
