@@ -1,23 +1,33 @@
 package com.example.mealprep;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.mealprep.ui.dashboard.DashboardFragment;
+import com.example.mealprep.ui.dashboard.DashboardViewModel;
+import com.example.mealprep.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HomeFragment.CaloriesFrag  {
+
+    private static final String TAG = HomeFragment.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -27,8 +37,23 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-
     }
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        if (fragment instanceof HomeFragment) {
+            HomeFragment headlinesFragment = (HomeFragment) fragment;
+            headlinesFragment.setCaloriesFrag(this);
+        }
+    }
+
+    @Override
+    public void setResult(String message) {
+        // The user selected the headline of an article from the HeadlinesFragment
+        // Do something here to display that article
+        
+        DashboardFragment articleFrag = (DashboardFragment)
+                getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager();
+        articleFrag.setResult(message);
+    }
 }
