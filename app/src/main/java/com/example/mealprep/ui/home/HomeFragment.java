@@ -14,7 +14,7 @@ import android.widget.RadioButton;
 import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
-
+import android.R.layout.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +29,7 @@ import com.example.mealprep.MainActivity;
 import com.example.mealprep.R;
 import com.example.mealprep.User;
 import com.example.mealprep.ui.dashboard.DashboardFragment;
+import android.content.Intent;
 
 public class HomeFragment extends Fragment{
 
@@ -40,7 +41,7 @@ public class HomeFragment extends Fragment{
     private String gender="";
     private static final String TAG = HomeFragment.class.getSimpleName();
     private double caloriesPerDay;
-    private CaloriesFrag callback;
+    //private CaloriesFrag callback;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,17 +73,26 @@ public class HomeFragment extends Fragment{
                 User user = new User(w,gender,a,h,pa,gw,d,pafinal);
                 //Log.d(TAG,user.toString());
                 caloriesPerDay=user.caloriesToEat();
-                //Log.d(TAG,Double.toString(user.caloriesToEat()));
-                callback.setResult(Double.toString(caloriesPerDay)+" calories");
+                Log.d(TAG,Double.toString(caloriesPerDay));
+
+                //((CaloriesPerDay)getActivity()).setResult(Double.toString(caloriesPerDay)+" calories");
+                /*
+                Intent myintent = new Intent(v.getContext(),DashboardFragment.class);
+                myintent.putExtra("STRING_I_NEED",Double.toString(caloriesPerDay));
+                startActivity(myintent);
+
+                 */
             }
         });
         return root;
     }
 
+    /*
     public interface CaloriesFrag{
         void setResult(String message);
     }
     public void setCaloriesFrag(CaloriesFrag callback) {
         this.callback = callback;
     }
+     */
 }
