@@ -16,21 +16,14 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/CaloriesBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="60dp"
+                android:text="Calories: 0"
                 android:textSize="30pt"
-                android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0"/>
+                android:gravity="center" />
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/layoutBreakfast1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -45,7 +38,7 @@
                     android:text="Breakfast"
                     android:textStyle="bold"/>
             </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/layoutBreakfast2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -61,7 +54,7 @@
             </LinearLayout>
 
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/layoutLunch1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -76,7 +69,7 @@
                     android:text="Lunch"
                     android:textStyle="bold" />
             </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/layoutLunch2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -90,7 +83,7 @@
                     android:gravity="center"
                     android:text="None" />
             </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/layoutDinner1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -1,53 +1,38 @@
 package com.example.mealprep.ui.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.RadioButton;
 import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
-import android.R.layout.*;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.example.mealprep.CaloriesPerDay;
-import com.example.mealprep.MainActivity;
 import com.example.mealprep.R;
 import com.example.mealprep.User;
-import com.example.mealprep.ui.dashboard.DashboardFragment;
-import android.content.Intent;
 
 public class HomeFragment extends Fragment{
 
-    private HomeViewModel homeViewModel;
+    private static final String TAG = HomeFragment.class.getSimpleName();
     private RadioGroup sex;
     private RadioButton buttonSex;
     private EditText age,height,weight,goalWeight,days,physicalActivity,physicalActivityFinal;
     private Button submit;
     private String gender="";
-    private static final String TAG = HomeFragment.class.getSimpleName();
     private double caloriesPerDay;
-    //private CaloriesFrag callback;
+    private CaloriesPerDay listener;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_home, container, false);
+        // initializes objects
         sex=(RadioGroup)root.findViewById(R.id.rg);
         age=(EditText)root.findViewById(R.id.textAge);
         height=(EditText)root.findViewById(R.id.textHeight);
@@ -57,6 +42,8 @@ public class HomeFragment extends Fragment{
         physicalActivity=(EditText)root.findViewById(R.id.textPhysicalActivity);
         physicalActivityFinal=(EditText)root.findViewById(R.id.textFinalPhysicalActivity);
         submit=(Button)root.findViewById(R.id.buttonSubmit);
+
+        // on button click, creates a User object and passes in the data inputted
         submit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,28 +58,27 @@ public class HomeFragment extends Fragment{
                 int d=Integer.parseInt(String.valueOf(days.getText()));
                 double pafinal=Double.parseDouble(String.valueOf(physicalActivityFinal.getText()));
                 User user = new User(w,gender,a,h,pa,gw,d,pafinal);
-                //Log.d(TAG,user.toString());
+                Log.d(TAG,user.toString());
                 caloriesPerDay=user.caloriesToEat();
-                Log.d(TAG,Double.toString(caloriesPerDay));
-
-                //((CaloriesPerDay)getActivity()).setResult(Double.toString(caloriesPerDay)+" calories");
-                /*
-                Intent myintent = new Intent(v.getContext(),DashboardFragment.class);
-                myintent.putExtra("STRING_I_NEED",Double.toString(caloriesPerDay));
-                startActivity(myintent);
-
-                 */
+                Log.d(TAG,"Sending "+Double.toString(caloriesPerDay) + " to Main Activity");
+                listener.setResult(Double.toString(caloriesPerDay));
             }
         });
         return root;
     }
 
-    /*
-    public interface CaloriesFrag{
-        void setResult(String message);
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CaloriesPerDay) {
+            listener = (CaloriesPerDay) context;
+        } else {
+            throw new RuntimeException(context.toString()+ " must implement CaloriesPerDay");
+        }
     }
-    public void setCaloriesFrag(CaloriesFrag callback) {
-        this.callback = callback;
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
-     */
 }

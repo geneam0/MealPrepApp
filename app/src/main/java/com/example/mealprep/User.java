@@ -1,6 +1,7 @@
 package com.example.mealprep;
 
 public class User {
+    // All the variables used to calculate the # calories a person will eat in a day
     private double weight; // in poumds
     private String sex;
     private int age;
@@ -21,6 +22,7 @@ public class User {
         this.finalPA=finalPA;
     }
 
+    // Getters and Setters
     public double getWeight() {
         return weight;
     }
@@ -100,6 +102,7 @@ public class User {
     public double changeCPD(){
         return changeBW()*7.77777777778/daysToReachGoal;
     }
+    // This is the main equation used to calculate how many calories a person should eat in a day
     public double caloriesToEat(){
         return Math.round(((changeCPD()+BMR()*PA)/finalPA) * 100.0) / 100.0;
     }

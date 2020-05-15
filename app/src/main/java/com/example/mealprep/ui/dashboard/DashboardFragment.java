@@ -1,6 +1,5 @@
 package com.example.mealprep.ui.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,54 +7,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import android.widget.TextView;
-
-import com.example.mealprep.CaloriesPerDay;
-import com.example.mealprep.MainActivity;
-import com.example.mealprep.R;
+import com.example.mealprep.Constants;
 import com.example.mealprep.ui.home.HomeFragment;
-import android.content.Intent;
-
-import java.util.zip.Inflater;
+import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import com.example.mealprep.R;
 
 public class DashboardFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
-
-    private DashboardViewModel dashboardViewModel;
     private TextView txtData;
-    private String message;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
+        super.onCreateView(inflater,container,savedInstanceState);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        txtData = (TextView) root.findViewById(R.id.textView);
+        txtData=(TextView)root.findViewById(R.id.CaloriesBar);
 
-        /*
-        Intent iin=((MainActivity) getContext()).getIntent();
-        Bundle b = iin.getExtras();
-        if(b!=null)
-        {
-            String j =(String) b.get("STRING_I_NEED");
-            txtData.setText(j);
-        }
-        */
         return root;
     }
-    /*
-    @Override
-    public void setResult(String message) {
-        Log.d(TAG,message);
-        //txtData=(TextView) root.findViewById(R.id.textView);
-        this.message=message;
-        txtData.setText(message);
-    }
 
-     */
+    public void setResult(String message) {
+        Log.d(TAG,"Received message in Dashboard Fragment");
+        Constants c = new Constants(message);
+        String json = c.doInBackground();
+        Log.d(TAG,"JSON: "+json);
+        if(txtData!=null) {
+            txtData.setText("Calories"+message);
+        } else{
+            Log.d(TAG,"txtData is NULL");
+        }
+    }
 }
